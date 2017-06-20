@@ -1,0 +1,11 @@
+{
+	"name": "XtoY",
+	"version": "0.5.0",
+	"description": "Generates X to Y word substitution browser plugins",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"author": "Diarmaid",
+	"license": "MIT"
+}
