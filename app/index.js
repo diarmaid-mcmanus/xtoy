@@ -23,7 +23,6 @@ async function home(ctx) {
 }
 
 async function description(ctx) {
-	console.log("description enter")
 	const from = ctx.params.from
 	const to = ctx.params.to
 	const descriptionPage = await Promise.all([
@@ -32,29 +31,39 @@ async function description(ctx) {
 
 	const fileTemplate = dot.template(descriptionPage)
 	ctx.body = fileTemplate({ from: from, to: to })
-	console.log("description end ")
 }
 
 async function generatePlugin(ctx) {
 	const from = ctx.params.from
+        const browser = ctx.params.browser
 	const to = ctx.params.to
 	const zip = new AdmZip()
 
-	// for now, open content_script.js and manifest.json in here. I think it would make more sense for them to be constants in memory
-	const [contentScriptFileBuffer, manifest] = await Promise.all([
-		readFile(path.resolve(__dirname, 'content_script.js')),
-		readFile(path.resolve(__dirname, 'manifest.json'))
-	])
+        switch(browser) {
+            case "chrome":
+        	// for now, open content_script.js and manifest.json in here. I think it would make more sense for them to be constants in memory
+	        const [chromeContentScriptFileBuffer, chromeManifest] = await Promise.all([
+		    readFile(path.resolve(__dirname, 'chrome/content_script.js')),
+		    readFile(path.resolve(__dirname, 'chrome/manifest.json'))
+	        ])
 
-	const contentScriptFileTemplate = dot.template(contentScriptFileBuffer)
-	const manifestTemplate = dot.template(manifest)
+	        const chromeContentScriptFileTemplate = dot.template(chromeContentScriptFileBuffer)
+        	const chromeManifestTemplate = dot.template(chromeManifest)
 
-	zip.addFile('content_script.js', contentScriptFileTemplate({from: from, to: to}))
-	zip.addFile('manifest.json', manifestTemplate({from: from, to: to}))
+	        zip.addFile('content_script.js', chromeContentScriptFileTemplate({from: from, to: to}))
+	        zip.addFile('manifest.json', chromeManifestTemplate({from: from, to: to}))
 
-	ctx.response.attachment('plugin.zip')
-	ctx.response.body = zip.toBuffer()
+	        ctx.response.attachment('plugin.zip')
+	        ctx.response.body = zip.toBuffer()
+                break;
+            case "firefox":
+                break;
+            case "opera":
+                break;
+            default:
+                break;
 
+        }
 }
 
 app.listen(port)
