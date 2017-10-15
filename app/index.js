@@ -40,6 +40,7 @@ async function generatePlugin(ctx) {
 	const zip = new AdmZip()
 
         switch(browser) {
+            case "opera":
             case "chrome":
         	// for now, open content_script.js and manifest.json in here. I think it would make more sense for them to be constants in memory
 	        const [chromeContentScriptFileBuffer, chromeManifest] = await Promise.all([
@@ -71,8 +72,6 @@ async function generatePlugin(ctx) {
 
 	        ctx.response.attachment('plugin.zip')
 	        ctx.response.body = zip.toBuffer()
-                break;
-            case "opera":
                 break;
             default:
                 break;
