@@ -1,6 +1,21 @@
 <html>
-<head>
-<title>XtoY - create your own word substitution browser plugin</title>
-</head><body>
+  <head>
+    <title>XtoY - create your own word substitution browser plugin</title>
+  </head>
+  <body>
+    <script>
+      function redirect() {
+          xValue = document.getElementById('x').value;
+          yValue = document.getElementById('y').value;
+          console.log('redirecting to ' + xValue + ' ' + yValue);
+          window.location = "/" + xValue + "/" + yValue;
+      }
 
-</body></html>
+    </script>
+    <form id="words" onsubmit="redirect();" >
+      <input name="x" id="x" type="text" title="Word you want to replace" required pattern="[a-zA-Z]" >
+      <input name="y" id="y" type="text" title="Word you want to insert" required pattern="[a-zA-Z]">
+      <button type="" value="Submit" onclick="redirect();" >Submit</button>
+    </form>
+  </body>
+</html>

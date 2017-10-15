@@ -7,5 +7,11 @@
 		"start": "node index.js"
 	},
 	"author": "Diarmaid",
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {
+		"adm-zip": "^0.4.7",
+		"dot": "^1.1.2",
+		"koa": "^2.3.0",
+		"koa-router": "^7.2.1"
+	}
 }
