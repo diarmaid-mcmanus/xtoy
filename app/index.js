@@ -57,6 +57,20 @@ async function generatePlugin(ctx) {
 	        ctx.response.body = zip.toBuffer()
                 break;
             case "firefox":
+        	// for now, open content_script.js and manifest.json in here. I think it would make more sense for them to be constants in memory
+	        const [mozillaContentScriptFileBuffer, mozillaManifest] = await Promise.all([
+		    readFile(path.resolve(__dirname, 'mozilla/content_script.js')),
+		    readFile(path.resolve(__dirname, 'mozilla/manifest.json'))
+	        ])
+
+	        const mozillaContentScriptFileTemplate = dot.template(mozillaContentScriptFileBuffer)
+        	const mozillaManifestTemplate = dot.template(mozillaManifest)
+
+	        zip.addFile('content_script.js', mozillaContentScriptFileTemplate({from: from, to: to}))
+	        zip.addFile('manifest.json', mozillaManifestTemplate({from: from, to: to}))
+
+	        ctx.response.attachment('plugin.zip')
+	        ctx.response.body = zip.toBuffer()
                 break;
             case "opera":
                 break;

@@ -1,0 +1,19 @@
+{
+        "applications": {
+            "gecko": {
+                "strict_min_version": "48.0"
+            }
+        },
+	"manifest_version": 2,
+	"name": "{{=it.from }} to {{=it.to }} (An X To Y Production)",
+	"version": "1.0",
+	"description": "Replaces the text {{=it.from }} with {{=it.to }}. Created using XtoY.",
+	"content_scripts": 
+	[
+		{
+			"matches": ["*://*/*"],
+			"js": ["content_script.js"],
+			"run_at": "document_end"
+		}
+	]
+}
